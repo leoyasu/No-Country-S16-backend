@@ -46,7 +46,7 @@ El objetivo principal de CHealth es proporcionar una plataforma web que ofrezca 
 - **Amparo Pachon**: UX-UI Designer  
  **LinkedIn:** [LinkedIn](www.linkedin.com/in/luz-amparo-pachón-mojica-50a1ab2a5)
   
-- **Leandro Yasutake:**: Full Stack <br>
+- **Leandro Yasutake**: Full Stack <br>
  **LinkedIn:** [LinkedIn](https://www.linkedin.com/in/leandro-yasutake-1a73632ba/)
 
 - **Kevin Barrios**: Backend  
