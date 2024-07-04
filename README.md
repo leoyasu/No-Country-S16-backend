@@ -49,6 +49,9 @@ El objetivo principal de CHealth es proporcionar una plataforma web que ofrezca 
 - **Leandro Yasutake**: Full Stack <br>
  **LinkedIn:** [LinkedIn](https://www.linkedin.com/in/leandro-yasutake-1a73632ba/)
 
+- **Josias Luna**: Backend  
+  **LinkedIn:** [LinkedIn]( https://www.linkedin.com/in/josias-misael-luna-robledo)
+
 - **Kevin Barrios**: Backend  
   **LinkedIn:** Por Definir
 
