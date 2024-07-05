@@ -59,7 +59,6 @@ El objetivo principal de CHealth es proporcionar una plataforma web que ofrezca 
 - **Frontend**: React-TypeScript / Tailwind / Formik - React Hook Form / Axios / Context API
 - **UX/UI**: (Por especificar)
 - **Backend**: (Por especificar)
-- **Testing**: Frontend: React-testing-library
 
 ## Enlaces del Proyecto
 - **Repositorio**: [GitHub](https://github.com/No-Country-simulation/s16-04-m-node-react)
