@@ -56,7 +56,7 @@ El objetivo principal de CHealth es proporcionar una plataforma web que ofrezca 
   **LinkedIn:** Por Definir
 
 ## Tecnologías
-- **Frontend**: React / Tailwind / Formik - React Hook Form / Axios / Context API
+- **Frontend**: React-TypeScript / Tailwind / Formik - React Hook Form / Axios / Context API
 - **UX/UI**: (Por especificar)
 - **Backend**: (Por especificar)
 - **Testing**: (Por especificar)
