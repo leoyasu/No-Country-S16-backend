@@ -1,8 +1,8 @@
-import zod from "zod";
+import z from "zod";
 
-import { parseValidationResult } from "../../config/utils/parseData";
+import { parseValidationResult } from "../../config/utils/parseData.js";
 
-const registerUser = zod.object({
+const registerUser = z.object({
   name: z.string().min(3).max(20),
   surname: z.string().min(3).max(20),
   email: z.string().email({ message: "invalid email" }),
@@ -17,7 +17,7 @@ const loginUserSchema = z.object({
 export const validateRegister = (data) => {
   const result = registerUser.safeParse(data);
 
-  const { hasError, errorMessages, userData } = extractValidationData(result);
+  const { hasError, errorMessages, userData } = parseValidationResult(result);
 
   return {
     hasError,
@@ -28,12 +28,11 @@ export const validateRegister = (data) => {
 
 export const validateLogin = (data) => {
   const result = loginUserSchema.safeParse(data);
-
   const {
     hasError,
     errorMessages,
     data: userData,
-  } = extractValidationData(result);
+  } = parseValidationResult(result);
 
   return {
     hasError,
@@ -49,7 +48,7 @@ export const validateUpdate = (data) => {
     hasError,
     errorMessages,
     data: userData,
-  } = extractValidationData(result);
+  } = parseValidationResult(result);
 
   return {
     hasError,
