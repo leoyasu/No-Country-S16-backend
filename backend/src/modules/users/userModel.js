@@ -1,6 +1,7 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../../config/database/database.js";
 import { encryptedPassword } from "../../config/plugins/encryptPassword.js";
+import bcrypt from "bcrypt"; // Importa bcrypt para generar contraseñas seguras
 
 const DEFAULT_PROFILE_PICTURE_URL =
   "https://thumbs.dreamstime.com/b/icono-gris-de-perfil-usuario-s%C3%ADmbolo-empleado-avatar-web-y-dise%C3%B1o-ilustraci%C3%B3n-signo-aislado-en-fondo-blanco-191067342.jpg";
@@ -20,7 +21,7 @@ const User = sequelize.define(
     },
     surname: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     email: {
       allowNull: false,
@@ -30,10 +31,10 @@ const User = sequelize.define(
     password: {
       allowNull: false,
       type: DataTypes.STRING,
-      unique: false,
+      defaultValue: "", 
     },
     role: {
-      type: DataTypes.ENUM("admin","user" ,"patient", "proffesional"),
+      type: DataTypes.ENUM("admin", "user", "patient", "professional"),
       allowNull: false,
       defaultValue: "user",
     },
@@ -47,11 +48,24 @@ const User = sequelize.define(
       allowNull: true,
       defaultValue: DEFAULT_PROFILE_PICTURE_URL,
     },
+    googleId: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      unique: true,
+    },
   },
   {
     hooks: {
       beforeCreate: async (user) => {
-        user.password = await encryptedPassword(user.password);
+        if (!user.password) {
+          const generatedPassword = await bcrypt.hash("password", 10);
+          user.password = generatedPassword;
+        }
+
+        if (user.changed("password")) {
+          user.password = await encryptedPassword(user.password);
+        }
+
         if (!user.profilePicture) {
           user.profilePicture = DEFAULT_PROFILE_PICTURE_URL;
         }
