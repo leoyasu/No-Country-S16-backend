@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import "@radix-ui/themes/styles.css";
-import { Theme, ThemePanel } from "@radix-ui/themes";
+import { Theme } from "@radix-ui/themes";
 import { BrowserRouter } from "react-router-dom";
 import { Provider, useSelector } from "react-redux";
 import AuthProvider from "react-auth-kit/AuthProvider";
