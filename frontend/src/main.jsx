@@ -5,13 +5,35 @@ import "./index.css";
 import "@radix-ui/themes/styles.css";
 import { Theme, ThemePanel } from "@radix-ui/themes";
 import { BrowserRouter } from "react-router-dom";
+import { Provider, useSelector } from "react-redux";
+import AuthProvider from "react-auth-kit/AuthProvider";
+import { PersistGate } from "redux-persist/integration/react";
+import { store } from "./store/Auth/store.js";
+import { storeRedux, persistor } from "./store/index.js";
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <Theme accentColor="cyan">
-    <BrowserRouter>
-      <App />
+// Define a wrapper to connect to Redux store
+const ThemedApp = () => {
+  const appearance = useSelector((state) => state.appearance.theme);
+  
+
+  return (
+    <Theme appearance={appearance} accentColor="cyan" grayColor="sage">
+      <BrowserRouter>
+        <App />
       </BrowserRouter>
     </Theme>
-  </React.StrictMode>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <AuthProvider store={store}>
+    <Provider store={storeRedux}>
+      <PersistGate loading={null} persistor={persistor}>
+        <React.StrictMode>
+          <ThemedApp />
+        </React.StrictMode>
+      </PersistGate>
+    </Provider>
+  </AuthProvider>
 );
+
