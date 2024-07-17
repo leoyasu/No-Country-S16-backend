@@ -45,8 +45,9 @@ export const login = catchAsync(async (req, res, next) => {
   return res.status(200).json({
     token,
     user: {
-      name: user.name,
+      role: user.role,
       email: user.email,
+      googleId: user.googleId,
     },
   });
 });
@@ -73,7 +74,7 @@ export const register = catchAsync(async (req, res, next) => {
   return res.status(201).json({
     token,
     user: {
-      name: user.name,
+      googleId: user.googleId,
       email: user.email,
       role: user.role,
     },

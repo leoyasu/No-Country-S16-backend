@@ -17,11 +17,27 @@ const Doctor = sequelize.define("doctor", {
       key: "id",
     },
   },
+  name: {
+    allowNull: false,
+    type: DataTypes.STRING,
+  },
+  surname: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  birthdate: {
+    allowNull: true,
+    type: DataTypes.DATEONLY,
+  },
   specialty: {
     type: DataTypes.STRING,
     allowNull: false,
   },
   consults: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  matricule: {
     type: DataTypes.STRING,
     allowNull: true,
   },

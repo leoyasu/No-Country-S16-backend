@@ -15,14 +15,6 @@ const User = sequelize.define(
       autoIncrement: true,
       type: DataTypes.INTEGER,
     },
-    name: {
-      allowNull: false,
-      type: DataTypes.STRING,
-    },
-    surname: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
     email: {
       allowNull: false,
       type: DataTypes.STRING,

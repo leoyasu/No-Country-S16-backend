@@ -17,6 +17,18 @@ const Patient = sequelize.define("patient", {
       key: "id",
     },
   },
+  name: {
+    allowNull: false,
+    type: DataTypes.STRING,
+  },
+  surname: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  birthdate: {
+    allowNull: true,
+    type: DataTypes.DATEONLY,
+  },
   medicalHistory: {
     type: DataTypes.TEXT,
     allowNull: true,
@@ -32,6 +44,11 @@ const Patient = sequelize.define("patient", {
   coveragePlan: {
     allowNull: true,
     type: DataTypes.STRING,
+  },
+  status: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
   },
 });
 

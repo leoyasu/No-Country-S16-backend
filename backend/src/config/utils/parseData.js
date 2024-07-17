@@ -1,14 +1,16 @@
-export const parseValidationResult = (resultValidation) => {
-  let errorMessages;
-  let data;
-  const hasError = !resultValidation.success;
 
-  if (hasError) errorMessages = JSON.parse(resultValidation.error.message);
-  if (!hasError) data = resultValidation.data;
-
-  return {
-    hasError,
-    errorMessages,
-    data,
-  };
+export const parseValidationResult = (result) => {
+  if (result.success) {
+    return {
+      hasError: false,
+      errorMessages: [],
+      userData: result.data, 
+    };
+  } else {
+    return {
+      hasError: true,
+      errorMessages: result.error.issues.map(issue => issue.message),
+      userData: null,
+    };
+  }
 };

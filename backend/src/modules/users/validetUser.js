@@ -3,10 +3,9 @@ import z from "zod";
 import { parseValidationResult } from "../../config/utils/parseData.js";
 
 const registerUser = z.object({
-  name: z.string().min(3).max(20),
-  surname: z.string().min(3).max(20),
   email: z.string().email({ message: "invalid email" }),
   password: z.string().min(8).max(25),
+  role: z.string().min(3).max(20).optional(),
 });
 
 const loginUserSchema = z.object({
@@ -16,7 +15,6 @@ const loginUserSchema = z.object({
 
 export const validateRegister = (data) => {
   const result = registerUser.safeParse(data);
-
   const { hasError, errorMessages, userData } = parseValidationResult(result);
 
   return {
