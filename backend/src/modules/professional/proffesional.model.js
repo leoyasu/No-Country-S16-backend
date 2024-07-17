@@ -1,5 +1,6 @@
-import { sequelize } from "../../config/database/database";
-import User from "../users/userModel";
+import { sequelize } from "../../config/database/database.js";
+import { DataTypes } from "sequelize";
+import User from "../users/userModel.js";
 
 const Doctor = sequelize.define("doctor", {
   id: {
@@ -25,6 +26,5 @@ const Doctor = sequelize.define("doctor", {
     allowNull: true,
   },
 });
-
 
 export default Doctor;
