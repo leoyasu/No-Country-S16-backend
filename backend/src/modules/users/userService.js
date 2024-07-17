@@ -1,3 +1,5 @@
+import Patient from "../patient/patientModel.js";
+import Doctor from "../professional/proffesional.model.js";
 import User from "./userModel.js";
 
 export class UserServices {
@@ -17,7 +19,15 @@ export class UserServices {
     });
   }
   async createUser(data) {
-    return await User.create(data);
+    const user = await User.create(data);
+
+    if (data.role === "patient") {
+      await Patient.create({ userId: user.id, ...data.patientDetails });
+    } else if (data.role === "doctor") {
+      await Doctor.create({ userId: user.id, ...data.doctorDetails });
+    }
+
+    return user;
   }
 
   async updateUser(user, data) {

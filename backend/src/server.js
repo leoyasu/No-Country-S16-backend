@@ -6,7 +6,7 @@ import { initModel } from "./config/database/associations.js";
 async function main() {
   try {
     await authenticate();
-    // initModel()
+    initModel();
     await sincronize();
   } catch (error) {
     console.log(error);

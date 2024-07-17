@@ -2,15 +2,20 @@ import { verifyPassword } from "../../config/plugins/encryptPassword.js";
 import generateJWT from "../../config/plugins/generateJwt.js";
 import { AppError } from "../../errors/appError.js";
 import { catchAsync } from "../../errors/catchAsync.js";
+import Patient from "../patient/patientModel.js";
+import Doctor from "../professional/proffesional.model.js";
 import { UserServices } from "./userService.js";
-import { validateLogin, validateRegister, validateUpdate } from "./validetUser.js";
+import {
+  validateLogin,
+  validateRegister,
+  validateUpdate,
+} from "./validetUser.js";
 
 const userServices = new UserServices();
 
 export const login = catchAsync(async (req, res, next) => {
-  console.log("Request body:", req.body);
   const { errorMessages, hasError, userData } = validateLogin(req.body);
-  
+
   console.log("Validation result:", { errorMessages, hasError, userData });
 
   if (hasError) {
@@ -26,7 +31,10 @@ export const login = catchAsync(async (req, res, next) => {
     return next(new AppError("This user does not exist", 404));
   }
 
-  const isCorrectPassword = await verifyPassword(userData.password, user.password);
+  const isCorrectPassword = await verifyPassword(
+    userData.password,
+    user.password
+  );
 
   if (!isCorrectPassword) {
     return next(new AppError("Password is not correct", 401));
@@ -55,6 +63,11 @@ export const register = catchAsync(async (req, res, next) => {
 
   const user = await userServices.createUser(userData);
 
+  if (userData.role == "patient") {
+    await Patient.create({ userId: user.id, ...userData.patientsDetails });
+  } else if (userData.role === "doctor") {
+    await Doctor.create({ userId: user.id, ...userData.doctorDetails });
+  }
   const token = await generateJWT(user.id);
 
   return res.status(201).json({
@@ -62,6 +75,7 @@ export const register = catchAsync(async (req, res, next) => {
     user: {
       name: user.name,
       email: user.email,
+      role: user.role,
     },
   });
 });

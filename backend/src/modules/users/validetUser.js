@@ -6,7 +6,7 @@ const registerUser = z.object({
   name: z.string().min(3).max(20),
   surname: z.string().min(3).max(20),
   email: z.string().email({ message: "invalid email" }),
-  password: z.string().min(8),
+  password: z.string().min(8).max(25),
 });
 
 const loginUserSchema = z.object({

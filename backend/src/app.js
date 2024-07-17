@@ -1,5 +1,3 @@
-// app.js
-
 import express from "express";
 import cors from "cors";
 import session from "express-session";
@@ -24,13 +22,13 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Rutas principales
+
 app.use("/api/v1", router);
 
-// Manejo de errores global
+
 app.use(globalErrorHandler);
 
-// Manejo de rutas no encontradas
+
 app.all("*", (req, res, next) => {
   next(new AppError(`can't find ${req.originalUrl} on this server!`, 404));
 });
