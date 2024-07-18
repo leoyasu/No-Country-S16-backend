@@ -1,5 +1,5 @@
 import z from "zod";
-import { parseValidationResult } from "../../config/utils/parseData";
+import { parseValidationResult } from "../../config/utils/parseData.js";
 
 const proffesionalShema = z.object({
   name: z.string().min(3).max(20),
