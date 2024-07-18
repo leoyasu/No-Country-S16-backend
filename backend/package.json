@@ -5,6 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "root": "backend",
     "build": "npm install",
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
