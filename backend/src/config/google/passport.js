@@ -2,6 +2,7 @@ import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import User from "../../modules/users/userModel.js";
 import { envs } from "../enviroments/enviroments.js";
+import generateJWT from "../plugins/generateJwt.js";
 
 passport.use(
   new GoogleStrategy(
@@ -21,7 +22,8 @@ passport.use(
             profilePicture: profile.photos[0].value,
           });
         }
-        return done(null, user);
+        const token = await generateJWT(user.id);
+        return done(null, user, token);
       } catch (error) {
         return done(error, null);
       }
