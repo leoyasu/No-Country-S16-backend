@@ -48,8 +48,8 @@ export const createAppointment = catchAsync(async (req, res, next) => {
   //aca validacion zod
 
   try {
-    const appointmentData = req.params;
-
+    const  appointmentData   = req.body;
+    
     const newAppointment = await appointmentService.createAppointment(
       appointmentData
     );
@@ -71,7 +71,7 @@ export const updateAppointment = catchAsync(async (req, res, next) => {
 
   try {
     const { id } = req.params;
-    const { appointmentData } = req.body;
+    const  appointmentData  = req.body;
 
     const appointment = await appointmentService.findOneById(id);
 
