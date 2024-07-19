@@ -2,13 +2,12 @@ import Appointment from "./appointment.model.js";
 import { catchAsync } from "../../errors/catchAsync.js";
 import { AppError } from "../../errors/appError.js";
 import { AppointmentService } from "../appointment/appointment.service.js";
-import { PatientService }  from "../patient/patient.service.js"
-import { ProffesionalService} from "../professional/proffesional.service.js"
+import { PatientService } from "../patient/patient.service.js";
+import { ProffesionalService } from "../professional/proffesional.service.js";
 
 const appointmentService = new AppointmentService();
 const patientService = new PatientService();
 const professionalService = new ProffesionalService();
-
 
 export const findAllAppointments = catchAsync(async (req, res, next) => {
   const appointments = await appointmentService.findAll();
@@ -29,6 +28,13 @@ export const findOneAppointment = catchAsync(async (req, res, next) => {
 
 export const findAllbyProfessional = catchAsync(async (req, res, next) => {
   const { id } = req.params;
+
+  const professional = await professionalService.findOneById(id);
+
+  if (!professional) {
+    return next(new AppError("professional do not exist", 404));
+  }
+
   const appointments = await appointmentService.findAllByProfessional(id);
 
   if (!appointments) {
@@ -40,6 +46,13 @@ export const findAllbyProfessional = catchAsync(async (req, res, next) => {
 
 export const findAllByPatient = catchAsync(async (req, res, next) => {
   const { id } = req.params;
+
+  const patient = await patientService.findOneById(id);
+
+  if (!patient) {
+    return next(new AppError("professional do not exist", 404));
+  }
+
   const appointments = await appointmentService.findAll(id);
 
   if (!appointments) {
@@ -56,15 +69,17 @@ export const createAppointment = catchAsync(async (req, res, next) => {
     const { professionalId, patientId, ...appointmentData } = req.body;
 
     const professional = await professionalService.findOneById(professionalId);
-    const patient = await patientService.findOneById(patientId)
+    const patient = await patientService.findOneById(patientId);
 
     if (!professional || !patient) {
       return next(new AppError("User(/s) do not exist", 404));
     }
 
-    const newAppointment = await appointmentService.createAppointment(
-      {professionalId, patientId, ...appointmentData}
-    );
+    const newAppointment = await appointmentService.createAppointment({
+      professionalId,
+      patientId,
+      ...appointmentData,
+    });
 
     res.status(201).json({
       message: "Appointment created successfully",
@@ -83,7 +98,7 @@ export const updateAppointment = catchAsync(async (req, res, next) => {
 
   try {
     const { id } = req.params;
-    const  appointmentData  = req.body;
+    const appointmentData = req.body;
 
     const appointment = await appointmentService.findOneById(id);
 
