@@ -14,6 +14,7 @@ import {
 const userServices = new UserServices();
 
 export const login = catchAsync(async (req, res, next) => {
+  console.log("Req Body", req.body);
   const { errorMessages, hasError, userData } = validateLogin(req.body);
 
   console.log("Validation result:", { errorMessages, hasError, userData });

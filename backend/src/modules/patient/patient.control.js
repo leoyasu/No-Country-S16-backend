@@ -5,6 +5,7 @@ import { validatePatient, validateUpdatePatient } from "./patient.validate.js";
 import { promisify } from "util";
 import { envs } from "../../config/enviroments/enviroments.js";
 import { AppError } from "../../errors/appError.js";
+import { log } from "console";
 
 const patientService = new PatientService();
 
@@ -16,6 +17,7 @@ export const findAllPatient = catchAsync(async (req, res, next) => {
 
 export const createPatient = catchAsync(async (req, res, next) => {
   const { errorMessages, hasError, userData } = validatePatient(req.body);
+
   if (hasError) {
     return res.status(422).json({
       status: "error",
@@ -25,11 +27,12 @@ export const createPatient = catchAsync(async (req, res, next) => {
 
   const token = req.headers.authorization.split(" ")[1];
   const decodeToken = await promisify(jwt.verify)(token, envs.SECRET_JWD_SEED);
-  const userId = decodeToken.id;
+  const userId = parseInt(decodeToken.id);
 
-  const existingPatient = await patientService.findOneById({
-    where: { userId },
-  });
+  const existingPatient = await patientService.findOneById(userId);
+
+  console.log(existingPatient);
+
   if (existingPatient) {
     return res.status(400).json({
       status: "error",
@@ -38,6 +41,7 @@ export const createPatient = catchAsync(async (req, res, next) => {
   }
 
   const patientData = { ...userData, userId };
+
   const patient = await patientService.createPatient(patientData);
 
   return res.status(201).json({
