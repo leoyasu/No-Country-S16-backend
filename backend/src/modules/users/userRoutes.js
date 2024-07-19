@@ -30,8 +30,10 @@ router.get(
   (req, res) => {
     // Aquí puedes enviar una respuesta JSON con el token de autenticación o cualquier otra información necesaria
 
-    res
-      .status(200)
-      .json({ message: "Authentication successful", user:req.user, token: req.authInfo });
+    res.status(200).json({
+      message: "Authentication successful",
+      user: req.user,
+      token: req.authInfo,
+    });
   }
 );

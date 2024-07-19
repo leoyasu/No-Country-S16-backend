@@ -18,7 +18,7 @@ export const findAllProfessional = catchAsync(async (req, res, next) => {
 });
 
 export const createProffesional = catchAsync(async (req, res, next) => {
-  const { errorMessages, hasErrorm, hasError } = validateProffesional(req.body);
+  const { errorMessages, hasError, userData } = validateProffesional(req.body);
 
   if (hasError) {
     return res.status(422).json({
@@ -31,9 +31,8 @@ export const createProffesional = catchAsync(async (req, res, next) => {
   const decodedToken = await promisify(jwt.verify)(token, envs.SECRET_JWD_SEED);
   const userId = decodedToken.id;
 
-  const existingProffesional = await proffesionalService.findOneById({
-    where: { userId },
-  });
+  const existingProffesional = await proffesionalService.findOneById(userId);
+
   if (existingProffesional) {
     return res.status(400).json({
       status: "error",

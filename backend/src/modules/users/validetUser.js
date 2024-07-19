@@ -26,11 +26,8 @@ export const validateRegister = (data) => {
 
 export const validateLogin = (data) => {
   const result = loginUserSchema.safeParse(data);
-  const {
-    hasError,
-    errorMessages,
-    data: userData,
-  } = parseValidationResult(result);
+
+  const { hasError, errorMessages, userData } = parseValidationResult(result);
 
   return {
     hasError,
