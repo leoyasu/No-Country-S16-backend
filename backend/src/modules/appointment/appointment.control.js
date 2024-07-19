@@ -2,8 +2,13 @@ import Appointment from "./appointment.model.js";
 import { catchAsync } from "../../errors/catchAsync.js";
 import { AppError } from "../../errors/appError.js";
 import { AppointmentService } from "../appointment/appointment.service.js";
+import { PatientService }  from "../patient/patient.service.js"
+import { ProffesionalService} from "../professional/proffesional.service.js"
 
 const appointmentService = new AppointmentService();
+const patientService = new PatientService();
+const professionalService = new ProffesionalService();
+
 
 export const findAllAppointments = catchAsync(async (req, res, next) => {
   const appointments = await appointmentService.findAll();
@@ -48,10 +53,17 @@ export const createAppointment = catchAsync(async (req, res, next) => {
   //aca validacion zod
 
   try {
-    const  appointmentData   = req.body;
-    
+    const { professionalId, patientId, ...appointmentData } = req.body;
+
+    const professional = await professionalService.findOneById(professionalId);
+    const patient = await patientService.findOneById(patientId)
+
+    if (!professional || !patient) {
+      return next(new AppError("User(/s) do not exist", 404));
+    }
+
     const newAppointment = await appointmentService.createAppointment(
-      appointmentData
+      {professionalId, patientId, ...appointmentData}
     );
 
     res.status(201).json({
