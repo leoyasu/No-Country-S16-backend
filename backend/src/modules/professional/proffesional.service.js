@@ -6,11 +6,11 @@ export class ProffesionalService {
   }
 
   async createProffesional(data) {
-    return await Patient.create(data);
+    return await Doctor.create(data);
   }
 
   async findOneById(id) {
-    return await Patient.findOne({
+    return await Doctor.findOne({
       where: {
         id,
         status: true,
