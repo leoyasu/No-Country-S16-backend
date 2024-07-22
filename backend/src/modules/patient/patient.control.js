@@ -31,8 +31,6 @@ export const createPatient = catchAsync(async (req, res, next) => {
 
   const existingPatient = await patientService.findOneById(userId);
 
-  console.log(existingPatient);
-
   if (existingPatient) {
     return res.status(400).json({
       status: "error",
