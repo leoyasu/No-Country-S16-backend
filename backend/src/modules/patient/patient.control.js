@@ -5,7 +5,6 @@ import { validatePatient, validateUpdatePatient } from "./patient.validate.js";
 import { promisify } from "util";
 import { envs } from "../../config/enviroments/enviroments.js";
 import { AppError } from "../../errors/appError.js";
-import { log } from "console";
 
 const patientService = new PatientService();
 
