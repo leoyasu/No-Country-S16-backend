@@ -54,7 +54,7 @@ export const findAllByPatient = catchAsync(async (req, res, next) => {
   const patient = await patientService.findOneById(id);
 
   if (!patient) {
-    return next(new AppError("professional do not exist", 404));
+    return next(new AppError("patient do not exist", 404));
   }
 
   const appointments = await appointmentService.findAll(id);
@@ -83,6 +83,12 @@ export const createAppointment = catchAsync(async (req, res, next) => {
 
   if (!professional || !patient) {
     return next(new AppError("User(/s) do not exist", 404));
+  }
+
+  const overlappingAppointment = await appointmentService.findOverlapingAppointment({ professionalId, patientId, ...appointmentData });
+
+  if(overlappingAppointment) {
+    return next(new AppError("The schedule is currently not available", 409))
   }
 
   const newAppointment = await appointmentService.createAppointment({

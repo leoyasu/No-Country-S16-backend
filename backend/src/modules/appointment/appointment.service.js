@@ -49,4 +49,44 @@ export class AppointmentService {
       status: "cancelled",
     });
   }
+
+  async findOverlapingAppointment(appointment) {
+    const professionalOverlap = await this.findProfessionalOverlap(
+      appointment.professionalId,
+      appointment.date,
+      appointment.time
+    );
+
+    const patientOverlap = await this.findPatientOverlap(
+      appointment.patientId,
+      appointment.date,
+      appointment.time
+    );
+
+    if (professionalOverlap || patientOverlap) {
+      return true;
+    }
+
+    return false;
+  }
+
+  async findProfessionalOverlap(professionalId, date, time) {
+    return await Appointment.findOne({
+      where: {
+        professionalId,
+        date,
+        time,
+      },
+    });
+  }
+
+  async findPatientOverlap(patientId, date, time) {
+    return await Appointment.findOne({
+      where: {
+        patientId,
+        date,
+        time,
+      },
+    });
+  }
 }
