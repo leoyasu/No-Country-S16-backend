@@ -41,6 +41,11 @@ const Doctor = sequelize.define("doctor", {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  status: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  },
 });
 
 export default Doctor;

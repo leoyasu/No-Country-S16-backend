@@ -21,7 +21,7 @@ const patientSchema = z.object({
 
 export const validatePatient = (data) => {
   const result = patientSchema.safeParse(data);
-  console.log(data);
+  
   const { hasError, errorMessages, userData } = parseValidationResult(result);
 
   return {
