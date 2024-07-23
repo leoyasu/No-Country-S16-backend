@@ -1,4 +1,5 @@
 import Doctor from "./proffesional.model.js";
+import User from "../users/userModel.js";
 
 export class ProffesionalService {
   async findAll() {
@@ -6,24 +7,29 @@ export class ProffesionalService {
   }
 
   async createProffesional(data) {
-    return await Patient.create(data);
+    return await Doctor.create(data);
   }
 
   async findOneById(id) {
-    return await Patient.findOne({
+    return await Doctor.findOne({
       where: {
         id,
         status: true,
+      },
+      include: {
+        model: User,
+        as: "user",
+        attributes: ["id", "profilePicture", "email"],
       },
     });
   }
 
   async updateProffesional(user, data) {
-    return await user.update(data);
+    return await Doctor.update(data);
   }
 
   async deleteProfesional(user) {
-    return await user.update({
+    return await Doctor.update({
       status: false,
     });
   }

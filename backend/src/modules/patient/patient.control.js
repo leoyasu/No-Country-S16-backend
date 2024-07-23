@@ -6,6 +6,7 @@ import { promisify } from "util";
 import { envs } from "../../config/enviroments/enviroments.js";
 import { AppError } from "../../errors/appError.js";
 import { log } from "console";
+import { UserServices } from "../users/userService.js";
 
 const patientService = new PatientService();
 
@@ -30,8 +31,6 @@ export const createPatient = catchAsync(async (req, res, next) => {
   const userId = parseInt(decodeToken.id);
 
   const existingPatient = await patientService.findOneById(userId);
-
-  console.log(existingPatient);
 
   if (existingPatient) {
     return res.status(400).json({

@@ -9,7 +9,7 @@ passport.use(
     {
       clientID: envs.GOOGLE_CLIENT_ID,
       clientSecret: envs.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/api/v1/users/auth/google/callback",
+      callbackURL: "https://no-country-s16-backend-production.up.railway.app/api/v1/users/auth/google/callback",
     },
     async (accesToken, refreshToken, profile, done) => {
       try {
