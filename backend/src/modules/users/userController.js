@@ -49,6 +49,7 @@ export const login = catchAsync(async (req, res, next) => {
       role: user.role,
       email: user.email,
       googleId: user.googleId,
+      profilePicture: user.profilePicture,
     },
   });
 });
@@ -126,9 +127,16 @@ export const findAllUser = catchAsync(async (req, res, next) => {
 });
 
 export const findOneUser = catchAsync(async (req, res, next) => {
-  const { id } = req.params;
+  const { id, email } = req.params;
 
-  const user = await userServices.findOneByid(id);
+  let user;
+  if (id) {
+    user = await userServices.findOneByid(id);
+  } else if (email) {
+    user = await userServices.findUserByEmail(email);
+  } else {
+    return next(new AppError("Please provide either id or email", 400));
+  }
 
   if (!user) {
     return next(new AppError("user do not exist", 404));

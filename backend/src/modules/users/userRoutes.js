@@ -19,6 +19,8 @@ router.route("/").get(findAllUser);
 
 router.route("/:id").get(findOneUser).patch(updateUser).delete(deleteUser);
 
+router.get("/:email", findOneUser);
+
 router.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
