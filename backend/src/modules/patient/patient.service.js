@@ -1,3 +1,4 @@
+import User from "../users/userModel.js";
 import Patient from "./patientModel.js";
 
 export class PatientService {
@@ -18,6 +19,11 @@ export class PatientService {
       where: {
         id,
         status: true,
+      },
+      include: {
+        model: User,
+        as: "user",
+        attributes: ["id", "profilePicture", "email"],
       },
     });
   }

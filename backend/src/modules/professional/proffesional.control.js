@@ -8,6 +8,9 @@ import {
 } from "./proffesional.validate.js";
 import { envs } from "../../config/enviroments/enviroments.js";
 import { AppError } from "../../errors/appError.js";
+import { UserServices } from "../users/userService.js";
+import { where } from "sequelize";
+import User from "../users/userModel.js";
 
 const proffesionalService = new ProffesionalService();
 
