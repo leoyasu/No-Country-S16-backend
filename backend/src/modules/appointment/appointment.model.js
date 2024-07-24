@@ -41,6 +41,11 @@ const Appointment = sequelize.define("appointment", {
     allowNull: false,
     defaultValue: "accepted",
   },
+  reason: {
+    type: DataTypes.TEXT,
+    defaultValue: "Ninguno",
+    allowNull: true,
+  }
 });
 
 export default Appointment;
