@@ -39,11 +39,7 @@ export const validateLogin = (data) => {
 export const validateUpdate = (data) => {
   const result = registerUser.partial().safeParse(data);
 
-  const {
-    hasError,
-    errorMessages,
-    data: userData,
-  } = parseValidationResult(result);
+  const { hasError, errorMessages, userData } = parseValidationResult(result);
 
   return {
     hasError,

@@ -100,7 +100,7 @@ export const updateUser = catchAsync(async (req, res, next) => {
   if (!user) {
     return next(new AppError("user do not exist", 404));
   }
-
+  
   const updatedUser = await userServices.updateUser(user, userData);
 
   return res.status(200).json(updatedUser);

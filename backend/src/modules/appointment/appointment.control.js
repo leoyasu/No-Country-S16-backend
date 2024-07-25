@@ -8,10 +8,12 @@ import {
   validateAppointment,
   validateUpdateAppointment,
 } from "./appointment.validate.js";
+import { UserServices } from "../users/userService.js";
 
 const appointmentService = new AppointmentService();
 const patientService = new PatientService();
 const professionalService = new ProffesionalService();
+const userService = new UserServices();
 
 export const findAllAppointments = catchAsync(async (req, res, next) => {
   const appointments = await appointmentService.findAll();
@@ -85,10 +87,15 @@ export const createAppointment = catchAsync(async (req, res, next) => {
     return next(new AppError("User(/s) do not exist", 404));
   }
 
-  const overlappingAppointment = await appointmentService.findOverlapingAppointment({ professionalId, patientId, ...appointmentData });
+  const overlappingAppointment =
+    await appointmentService.findOverlapingAppointment({
+      professionalId,
+      patientId,
+      ...appointmentData,
+    });
 
-  if(overlappingAppointment) {
-    return next(new AppError("The schedule is currently not available", 409))
+  if (overlappingAppointment) {
+    return next(new AppError("The schedule is currently not available", 409));
   }
 
   const newAppointment = await appointmentService.createAppointment({
@@ -96,6 +103,28 @@ export const createAppointment = catchAsync(async (req, res, next) => {
     patientId,
     ...appointmentData,
   });
+
+  /////////Em@il////////////
+  const userProfessional = await userService.findOneByid(professional.userId);
+  const userPatient = await userService.findOneByid(patient.userId);
+  const professionalEmail = userProfessional.email;
+  const patientEmail = userPatient.email;
+
+  const emailSubject = "Nueva Cita Programada";
+  const emailText = `Detalles de la cita:
+    - Fecha y hora: ${newAppointment.date} ${newAppointment.time}
+    - Especialidad: ${professional.specialty}
+    - Profesional: ${professional.surname}, ${professional.name} 
+    - Paciente: ${patient.surname}, ${patient.name} 
+    - Descripción: ${newAppointment.reason || "No hay descripción"}`;
+
+  await appointmentService.sendNotificationEmail(
+    professionalEmail,
+    patientEmail,
+    emailSubject,
+    emailText
+  );
+  ///////////////////////////
 
   res.status(201).json({
     message: "Appointment created successfully",
