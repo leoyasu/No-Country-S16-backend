@@ -1,4 +1,5 @@
 import Appointment from "./appointment.model.js";
+import { sendEmail } from "../../config/plugins/sendEmail.js";
 
 export class AppointmentService {
   async findAll() {
@@ -88,5 +89,15 @@ export class AppointmentService {
         time,
       },
     });
+  }
+
+  async sendNotificationEmail(
+    professionalEmail,
+    patientEmail,
+    emailSubject,
+    emailText
+  ) {
+    await sendEmail(professionalEmail, emailSubject, emailText);
+    await sendEmail(patientEmail, emailSubject, emailText);
   }
 }

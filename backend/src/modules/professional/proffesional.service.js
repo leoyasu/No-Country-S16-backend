@@ -25,11 +25,11 @@ export class ProffesionalService {
   }
 
   async updateProffesional(user, data) {
-    return await Doctor.update(data);
+    return await user.update(data);
   }
 
   async deleteProfesional(user) {
-    return await Doctor.update({
+    return await user.update({
       status: false,
     });
   }
